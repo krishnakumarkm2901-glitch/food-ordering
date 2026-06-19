@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="cart-page">
+    <h1>Your Cart</h1>
+
+    {% if items %}
+    <form action="{{ url_for('update_cart') }}" method="post" class="cart-table">
+        <div class="cart-header">
+            <span>Item</span>
+            <span>Quantity</span>
+            <span>Price</span>
+            <span>Subtotal</span>
+        </div>
+
+        {% for item in items %}
+        <div class="cart-row">
+            <div class="item-details">
+                <img src="{{ item.image }}" alt="{{ item.name }}" />
+                <div>
+                    <strong>{{ item.name }}</strong>
+                </div>
+            </div>
+            <div>
+                <input type="number" name="quantity_{{ item.id }}" value="{{ item.quantity }}" min="0" />
+            </div>
+            <div>${{ '%.2f'|format(item.price) }}</div>
+            <div>${{ '%.2f'|format(item.subtotal) }}</div>
+        </div>
+        {% endfor %}
+
+        <div class="cart-actions">
+            <button class="button" type="submit">Update Cart</button>
+            <a class="button button-secondary" href="{{ url_for('index') }}">Continue Shopping</a>
+        </div>
+    </form>
+
+    <aside class="checkout-box">
+        <h2>Order Summary</h2>
+        <p class="order-total">Total: <strong>${{ '%.2f'|format(total) }}</strong></p>
+        <form action="{{ url_for('checkout') }}" method="post" class="checkout-form">
+            <label>
+                Name
+                <input type="text" name="customer_name" placeholder="Your name" required />
+            </label>
+            <label>
+                Address
+                <input type="text" name="customer_address" placeholder="Delivery address" required />
+            </label>
+            <label>
+                Phone
+                <input type="tel" name="contact_phone" placeholder="Phone number" required />
+            </label>
+            <button class="button button-primary" type="submit">Place Order</button>
+        </form>
+    </aside>
+    {% else %}
+    <div class="empty-cart">
+        <p>Your cart is empty.</p>
+        <a class="button button-secondary" href="{{ url_for('index') }}">Browse Menu</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

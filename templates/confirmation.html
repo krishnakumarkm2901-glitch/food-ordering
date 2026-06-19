@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="confirmation-page">
+    <h1>Order Confirmed</h1>
+    <p>Thanks, {{ order.customer_name }}! Your order has been received.</p>
+
+    <div class="order-details">
+        <p><strong>Order number:</strong> {{ order.order_number }}</p>
+        <p><strong>Delivery address:</strong> {{ order.customer_address }}</p>
+        <p><strong>Phone:</strong> {{ order.contact_phone }}</p>
+        <p><strong>Total:</strong> ${{ '%.2f'|format(order.total) }}</p>
+    </div>
+
+    <div class="ordered-items">
+        <h2>Items</h2>
+        <ul>
+            {% for item in order.items %}
+            <li>{{ item.quantity }} × {{ item.name }} — ${{ '%.2f'|format(item.subtotal) }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a class="button" href="{{ url_for('index') }}">Back to Menu</a>
+</section>
+{% endblock %}

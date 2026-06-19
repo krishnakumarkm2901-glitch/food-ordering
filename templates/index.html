@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+    <div>
+        <h1>Delicious food delivered fast.</h1>
+        <p>Choose your favorites from the menu and order in seconds.</p>
+    </div>
+    <img src="https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=1200&q=80" alt="Food delivery" />
+</section>
+
+<section class="menu-grid">
+    {% for item in menu %}
+    <article class="menu-card">
+        <img src="{{ item.image }}" alt="{{ item.name }}" />
+        <div class="menu-info">
+            <h2>{{ item.name }}</h2>
+            <p>{{ item.description }}</p>
+            <div class="menu-footer">
+                <span class="price">${{ '%.2f'|format(item.price) }}</span>
+                <button class="button add-to-cart" data-item-id="{{ item.id }}">Add to cart</button>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+{% endblock %}
